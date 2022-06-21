@@ -1,0 +1,57 @@
+version: '3.1'
+
+services:
+  php:
+    container_name: ds-php7.4-fpm
+    image: ds-php7.4-fpm
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - ./data/web:/var/www/html
+      - ./config/php/php.ini:/usr/local/etc/php/php.ini
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+  web:
+    depends_on:
+      - php
+    container_name: ds-nginx-1.22
+    image: dalso/ds-nginx-1.22:rhymix
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./data/web:/var/www/html
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+  db:
+    container_name: ds-mariadb
+    image: mariadb
+    restart: always
+    env_file: .env
+    ports:
+      - 3306:3306
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - ./data/db:/var/lib/mysql
+      - ./config/db/my.cnf:/etc/mysql/my.cnf 
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - ./data/dataredis:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly yes
+  filebrowser:
+    image: filebrowser/filebrowser
+    container_name: filebrowser
+    restart: unless-stopped
+    volumes:
+      - ./config/filebrowser/filebrowser.json:/.filebrowser.json
+      - ./data/filebrowser/database.db:/database.db
+      - ./data:/srv
+    ports:
+      - 8080:80
