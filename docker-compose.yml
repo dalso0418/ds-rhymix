@@ -36,7 +36,6 @@ services:
     volumes:
       - ./data/db:/var/lib/mysql
       - ./config/db/my.cnf:/etc/mysql/my.cnf 
-      - ./config/db/entrypoint:/docker-entrypoint-initdb.d
   redis:
     container_name: redis
     image: redis:alpine
