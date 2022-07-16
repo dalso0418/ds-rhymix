@@ -1,5 +1,0 @@
-<query id="deletePackages" action="delete">
-	<tables>
-		<table name="autoinstall_packages" />
-	</tables>
-</query>
