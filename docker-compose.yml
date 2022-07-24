@@ -3,7 +3,7 @@ version: '3.1'
 services:
   php:
     container_name: ds-php7.4-fpm
-    image: php7.4-fpm:220725
+    image: dalso/php7.4-fpm:220725
     restart: always
     environment:
       - TZ=Asia/Seoul
