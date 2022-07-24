@@ -3,13 +3,13 @@ version: '3.1'
 services:
   php:
     container_name: ds-php7.4-fpm
-    image: dalso/ds-php7.4-fpm
+    image: php7.4-fpm:220725
     restart: always
+    environment:
+      - TZ=Asia/Seoul
     volumes:
       - ./data/rhymix:/var/www/html
       - ./config/php/php.ini:/usr/local/etc/php/php.ini
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
   web:
     depends_on:
       - php
@@ -18,12 +18,12 @@ services:
     restart: always
     ports:
       - 80:80
+    environment:
+      - TZ=Asia/Seoul
     volumes:
       - ./data/rhymix:/var/www/html
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
   db:
     container_name: ds-mariadb
     image: mariadb
@@ -35,7 +35,7 @@ services:
       - MARIADB_ROOT_PASSWORD=example
       - MARIADB_USER=dalso
       - MARIADB_PASSWORD=example
-      - MARIADB_DATABASE=wordpress
+      - MARIADB_DATABASE=rhymix
     volumes:
       - ./data/db:/var/lib/mysql
       - ./config/db/my.cnf:/etc/mysql/my.cnf 
@@ -43,8 +43,8 @@ services:
     container_name: redis
     image: redis:alpine
     restart: unless-stopped
+    environment:
+      - TZ=Asia/Seoul
     volumes:
       - ./data/dataredis:/data
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
     command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly yes
