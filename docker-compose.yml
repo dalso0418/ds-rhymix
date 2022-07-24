@@ -28,11 +28,14 @@ services:
     container_name: ds-mariadb
     image: mariadb
     restart: always
-    env_file: .env
     ports:
       - 3306:3306
     environment:
       - TZ=Asia/Seoul
+      - MARIADB_ROOT_PASSWORD=example
+      - MARIADB_USER=dalso
+      - MARIADB_PASSWORD=example
+      - MARIADB_DATABASE=wordpress
     volumes:
       - ./data/db:/var/lib/mysql
       - ./config/db/my.cnf:/etc/mysql/my.cnf 
