@@ -13,8 +13,8 @@ services:
   web:
     depends_on:
       - php
-    container_name: ds-nginx-1.22
-    image: dalso/ds-nginx-1.22:rhymix
+    container_name: ds-nginx
+    image: nginx:1.25.2-alpine
     restart: always
     ports:
       - 80:80
