@@ -26,16 +26,13 @@ services:
       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
   db:
     container_name: ds-mariadb
-    image: mariadb:10.9
+    image: mariadb:10.11
     restart: always
+    env_file: .env
     ports:
       - 3306:3306
     environment:
       - TZ=Asia/Seoul
-      - MARIADB_ROOT_PASSWORD=example
-      - MARIADB_USER=dalso
-      - MARIADB_PASSWORD=example
-      - MARIADB_DATABASE=rhymix
     volumes:
       - ./data/db:/var/lib/mysql
       - ./config/db/my.cnf:/etc/mysql/my.cnf 
