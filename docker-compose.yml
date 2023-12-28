@@ -14,7 +14,7 @@ services:
     depends_on:
       - php
     container_name: ds-nginx
-    image: dalso/nginx:1.25.3-alpine
+    image: dalso/ds-nginx:1.25.3-alpine
     restart: always
     ports:
       - 80:80
